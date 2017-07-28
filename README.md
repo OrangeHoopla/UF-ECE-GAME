@@ -1,5 +1,5 @@
 # UF ECE GAME
-![Pokemonish Game](ece.jpg)
+![Pokemonish Game](ece.png)
 
 Email Quade Kirby at qkirby@ufl.edu if you are interested in helping out or if you want information about the project.
 
