@@ -375,7 +375,8 @@ def hospital(x=150,y=180):
 def pausemenu():
     #gameDisplay = pygame.display.set_mode((942,567))
     menu = pygame.image.load('PauseMenu.png')
-    gameDisplay.blit(menu,(-325,10))
+    point = pygame.image.load('menupointer.png')
+    location = 1
     
     
     
@@ -383,8 +384,10 @@ def pausemenu():
     gameExit = False
 
     while not gameExit:
-        print "in"
+        
         gameDisplay.blit(menu,(-325,10))
+        gameDisplay.blit(point,(-325,location*32 -20 ))
+
         pygame.display.update()
         
 
@@ -394,8 +397,29 @@ def pausemenu():
                 quit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    gameExit = True
+
+            	if event.key == pygame.K_q:
+            		gameExit = True
+
+
+
+                if event.key == pygame.K_DOWN:
+                	location += 1
+
+                if event.key == pygame.K_UP:
+                    location -= 1
+                   
+        if location < 1:
+        	location = 1
+        if location > 9:
+        	location = 9;
+                
+
+
+
+
+	    	
+        
 
         
         
