@@ -10,7 +10,8 @@ Email Quade Kirby at qkirby@ufl.edu if you are interested in helping out or if y
 
 
 # running the game
-Just make you sure you have the pygame library
+Just make sure you have the pygame library:
+	sudo apt-get install pygame
 
 
 # Disclaimer

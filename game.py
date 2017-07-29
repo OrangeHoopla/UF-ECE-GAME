@@ -24,6 +24,8 @@ display_height = backgroundRect.y
 
 
 
+
+
 def player(x =0,y = 0, tupl = [1, 0, 33, 33], count = 0):
     #print "count %f" %count
     tupl[0] = 33*int(count/5)
@@ -77,6 +79,9 @@ def navigator(level=0, x=150,y=180):
         stage1(x,y)
     if level ==2:
         hospital(x,y)
+
+    if level == 3:
+        load_screen()
 
 
 
@@ -249,7 +254,7 @@ def intro():
         pygame.display.update()
         clock.tick(60)
     pygame.mixer.music.fadeout(500)
-    navigator(1)
+    navigator(3)
 
 def hospital(x=150,y=180):
     background = pygame.image.load("hospital.png")
@@ -398,27 +403,90 @@ def pausemenu():
 
             if event.type == pygame.KEYDOWN:
 
-            	if event.key == pygame.K_q:
-            		gameExit = True
+                if event.key == pygame.K_q:
+                    gameExit = True
 
 
 
                 if event.key == pygame.K_DOWN:
-                	location += 1
+                    location += 1
 
                 if event.key == pygame.K_UP:
                     location -= 1
                    
         if location < 1:
-        	location = 1
+            location = 1
         if location > 9:
-        	location = 9;
+            location = 9;
+
+def load_screen():
+    text_box = pygame.image.load("text_box.png")
+    gameExit = False
+    name = ''
+    font = pygame.font.Font("font.ttf", 15)
+
+    while not gameExit:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.unicode.isalpha():
+                    name += event.unicode
+                if event.key == pygame.K_BACKSPACE:
+                    name = name[:-1]
+                if event.key == pygame.K_RETURN:
+                    name = ""
+                if event.key == pygame.K_SPACE:
+                    name += " "
+                    
+                        
+
+            gameDisplay.fill((0, 0, 0))
+            block = font.render(name, True, (0, 0, 0))
+            rect = block.get_rect()
+            #rect.center = gameDisplay.get_rect().center
+            
+            gameDisplay.blit(text_box,(10,400))
+            gameDisplay.blit(block, (25,420))
+                    
+            pygame.display.update()
+            clock.tick(30)
+
                 
+def display_text(phrase = ""):
+    text_box = pygame.image.load("text_box.png")
+    gameExit = False
+    name = phrase
+    font = pygame.font.Font("font.ttf", 15)
+
+    while not gameExit:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    name = ""
+                
+                    
+                        
+
+            gameDisplay.fill((0, 0, 0))
+            block = font.render(name, True, (255, 255, 255))
+            rect = block.get_rect()
+            #rect.center = gameDisplay.get_rect().center
+            gameDisplay.blit(block, rect)
+                    
+            pygame.display.update()
+            clock.tick(30)
 
 
 
 
-	    	
+            
         
 
         
