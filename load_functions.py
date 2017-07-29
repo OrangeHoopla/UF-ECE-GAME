@@ -1,15 +1,15 @@
 import glob
 print glob.glob("*.txt")
 def takeinputs():
-	global info
+	
 	info[0] = raw_input("save.txt")
 	inf0[1] = "hello"
 
 def write(info1): # assumed file name is always first
-	file = open(info[0],"w") 
-
+	file = open(info1[0],"w") 
+    
 	for i in info1:
-		file.write(i + "\n")
+		file.write(str(i) + "\n")
 		
 		
 def reader(filename):
@@ -24,10 +24,10 @@ def reader(filename):
 
 	return info
 
-great = ["test.txt", "hello", "red","health","1","0"]
-write(great)
+info = ["test.txt", "name", "red","health","1","245","150"]
+write(info)
 
-print reader(great[0])
+print reader(info[0])
 '''
 
 import pygame

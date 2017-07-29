@@ -2,13 +2,16 @@ import pygame
 import time
 from time import sleep
 import glob
+from load_functions import reader
 
 pygame.init()
 
 
-global info
-info = []
 
+info = []
+level = 0
+global_x = 150
+global_y = 180
 background = pygame.image.load("town.png")
 size = (width, height) = background.get_size()
 backgroundRect = background.get_rect()
@@ -34,20 +37,7 @@ def player(x =0,y = 0, tupl = [1, 0, 33, 33], count = 0):
     tupl[0] = 33*int(count/5)
     gameDisplay.blit(carImg,(x,y),tupl)
 
-    
-    
 
-def text_objects(text, font):
-    textSurface = font.render(text, True, (0,0,0))
-    return textSurface, textSurface.get_rect()
-
-def message_display(text):
-    largeText = pygame.font.Font('freesansbold.ttf',115)
-    TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = ((display_width/2),(display_height/2))
-    gameDisplay.blit(TextSurf, TextRect)
-
-    pygame.display.update()
 
     #time.sleep(2)
     #V needs work 285,210,510,325
@@ -87,6 +77,8 @@ def navigator(level=0, x=150,y=180):
         new_load()
     if level == 4:
         load_screen()
+    if level == 5:
+        Display_loads()
 
 
 
@@ -214,7 +206,13 @@ def stage1(x=150,y=180):
         pygame.display.update()
         clock.tick(30)
     pygame.mixer.music.fadeout(1500)
-    navigator(portal_val,portal_x,portal_y)
+    global level
+    level = portal_val
+    global global_x
+    global_x = portal_x
+    global global_y
+    global_y = portal_y
+    
 
 def intro():
 
@@ -259,7 +257,9 @@ def intro():
         pygame.display.update()
         clock.tick(60)
     pygame.mixer.music.fadeout(500)
-    navigator(4)
+    global level
+    level = 4
+    
 
 def hospital(x=150,y=180):
     background = pygame.image.load("hospital.png")
@@ -378,8 +378,14 @@ def hospital(x=150,y=180):
         
         pygame.display.update()
         clock.tick(30)
+    global level
+    level = 1
+    global global_x
+    global_x = 240
+    global global_y
+    global_y = 145
 
-    navigator(1,240,145)
+    
 
 
 def pausemenu():
@@ -432,7 +438,7 @@ def new_load():
     name = ''
     font = pygame.font.Font("font.ttf", 15)
     gameDisplay.blit(prof,(10,250))
-    display_text(["Welcome to the University of florida","More importantly Welcome  to our Department"])
+    display_text(["Welcome to the University of Florida","More importantly Welcome  to our Department"])
 
     while not gameExit:
         for event in pygame.event.get():
@@ -548,12 +554,68 @@ def load_screen():
             location = 1
         if location > 2:
             location = 2;
+    global level
     if location == 2:
-        navigator(3)
-    else: pass# display load in options
+        level = 3
+    else: level = 5# display load in options
+
 
 def Display_loads():
     possible = glob.glob("*.txt")
+    gameExit = False
+    gameDisplay.fill((128,128,128))
+    font = pygame.font.Font("font.ttf", 15)
+    point = pygame.image.load('menupointer.png')
+    menu = pygame.image.load('LoadMenu.png')
+    location = 1
+
+    while not gameExit:
+        i = 1
+        #gameDisplay.blit(menu,(250,10))
+        gameDisplay.blit(point,(-325,location*32 -25 ))
+        
+        pygame.display.update()
+        gameDisplay.blit(menu,(-95,-100))
+
+        for name in possible:
+            block = font.render(name[:-4], True, (0, 0, 0))
+            gameDisplay.blit(block, (75,i*32))
+            i +=1
+
+        
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+
+
+                if event.key == pygame.K_DOWN:
+                    location += 1
+
+                if event.key == pygame.K_UP:
+                    location -= 1
+                if event.key == pygame.K_RETURN:
+                    gameExit = True
+
+        if location < 1:
+            location = 1
+        if location > len(possible):
+            location = len(possible)
+    global info
+    global level
+    global global_x
+    global global_y
+    info = reader(possible[location-1])
+    level = int(info[4])
+    global_x = int(info[5])
+    global_y = int(info[6])
+
+
+
+
 
     
 
@@ -594,7 +656,8 @@ def Display_loads():
 
 
 
+while True:
 
-navigator()
+    navigator(level,global_x,global_y)
 pygame.quit()
 quit()
