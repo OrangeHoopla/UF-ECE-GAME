@@ -1,10 +1,13 @@
 import pygame
 import time
+from time import sleep
+import glob
 
 pygame.init()
 
 
-
+global info
+info = []
 
 background = pygame.image.load("town.png")
 size = (width, height) = background.get_size()
@@ -81,6 +84,8 @@ def navigator(level=0, x=150,y=180):
         hospital(x,y)
 
     if level == 3:
+        new_load()
+    if level == 4:
         load_screen()
 
 
@@ -254,7 +259,7 @@ def intro():
         pygame.display.update()
         clock.tick(60)
     pygame.mixer.music.fadeout(500)
-    navigator(3)
+    navigator(4)
 
 def hospital(x=150,y=180):
     background = pygame.image.load("hospital.png")
@@ -419,11 +424,15 @@ def pausemenu():
         if location > 9:
             location = 9;
 
-def load_screen():
+def new_load():
+    gameDisplay.fill((0, 0, 0))
     text_box = pygame.image.load("text_box.png")
+    prof = pygame.image.load("pixel_moore.png")
     gameExit = False
     name = ''
     font = pygame.font.Font("font.ttf", 15)
+    gameDisplay.blit(prof,(10,250))
+    display_text(["Welcome to the University of florida","More importantly Welcome  to our Department"])
 
     while not gameExit:
         for event in pygame.event.get():
@@ -449,39 +458,116 @@ def load_screen():
             #rect.center = gameDisplay.get_rect().center
             
             gameDisplay.blit(text_box,(10,400))
-            gameDisplay.blit(block, (25,420))
+            gameDisplay.blit(block, (30,425))
                     
             pygame.display.update()
             clock.tick(30)
 
                 
-def display_text(phrase = ""):
+def display_text(phrase = ["empty"],speed = .09,x = 10, y = 400):
     text_box = pygame.image.load("text_box.png")
-    gameExit = False
-    name = phrase
+    
+    
     font = pygame.font.Font("font.ttf", 15)
+    
+    #important to keep sentence under certain  ###27###
+    #thatt was before second line implementation
+    for sentence in phrase:
+        name = ''
+        line = y +25
+        gameDisplay.blit(text_box,(x,y))
+        gameExit = False
+        for letter in sentence:
+            name += letter
+            if len(name) > 25:
+                name = ''
+                line = y + 60
+            block = font.render(name, True, (0, 0, 0))
+            gameDisplay.blit(block, (x + 25,line))
+            pygame.display.update()
+            clock.tick(30)                
+            sleep(speed)
+
+
+        while not gameExit:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        gameExit = True
+        name = ''
+        block = font.render(name, True, (0, 0, 0))
+        gameDisplay.blit(block, (30,line))
+        pygame.display.update()
+
+def load_screen():
+    gameDisplay.fill((128,128,128))
+    font = pygame.font.Font("font.ttf", 15)
+    menu = pygame.image.load("text_box.png")
+    point = pygame.image.load('menupointer.png')
+    block1 = font.render("Load save", True, (0, 0, 0))
+    block2 = font.render("New Game", True, (0, 0, 0))
+    location = 1
+    gameExit = False
 
     while not gameExit:
+        
+        gameDisplay.blit(menu,(250,10))
+        gameDisplay.blit(point,(-100,location*32 -20 ))
+        
+        gameDisplay.blit(block1,(300,40))
+        gameDisplay.blit(block2,(300,70))
+        pygame.display.update()
+        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
             if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_q:
+                    gameExit = True
+
+
+
+                if event.key == pygame.K_DOWN:
+                    location += 1
+
+                if event.key == pygame.K_UP:
+                    location -= 1
                 if event.key == pygame.K_RETURN:
-                    name = ""
+                    gameExit = True
+
+                   
+        if location < 1:
+            location = 1
+        if location > 2:
+            location = 2;
+    if location == 2:
+        navigator(3)
+    else: pass# display load in options
+
+def Display_loads():
+    possible = glob.glob("*.txt")
+
+    
+
+
+
+
+
+
+        
                 
                     
                         
 
-            gameDisplay.fill((0, 0, 0))
-            block = font.render(name, True, (255, 255, 255))
-            rect = block.get_rect()
-            #rect.center = gameDisplay.get_rect().center
-            gameDisplay.blit(block, rect)
-                    
-            pygame.display.update()
-            clock.tick(30)
+            
 
 
 
