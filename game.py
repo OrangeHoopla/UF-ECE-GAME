@@ -12,6 +12,8 @@ pygame.init()
 info = []
 level = 0
 global_x = 154
+map_x = 0
+map_y = 0
 global_y = 170
 background_x = 0
 background_x = 0
@@ -47,6 +49,12 @@ def player(x =0,y = 0, tupl = [1, 0, 33, 33], count = 0):
 def obsticle(block,x,y,m,v):
     global global_x
     global global_y
+    global map_x
+    global map_y
+    block[0] = block[0] + map_x
+    block[1] = block[1]+ map_y
+    block[2] = block[2]+ map_x
+    block[3] = block[3]+ map_y
     # dem constants have to do with the speed
     if (x-6) > block[0] and (x+6) < block[2]:
         if y > block[1] and y < block[3]:
@@ -65,6 +73,8 @@ def obsticle(block,x,y,m,v):
             if -6 <= (x-block[2]):
                 x= block[2]
             else: x = block[0]
+
+    
     global_x = x
     global_y = y
     return m,v
@@ -79,19 +89,21 @@ def navigator(level=0):
     if level == 0:
         intro()
 
-    if level == 1:
+    elif level == 1:
         stage1(global_x,global_y)
-    if level == 2:
+    elif level == 2:
         hospital()
 
-    if level == 3:
+    elif level == 3:
         new_load()
-    if level == 4:
+    elif level == 4:
         load_screen()
-    if level == 5:
+    elif level == 5:
         Display_loads()
-    if level == 6:
+    elif level == 6:
         Lab()
+    elif level == 7:
+        stage2()
 
 
 
@@ -105,6 +117,8 @@ def stage1(x=151,y=250):
     #menu = pygame.image.load("PauseMenu.png")
     global global_x
     global global_y
+    global map_y
+    global map_x
     global level
     
     
@@ -182,7 +196,7 @@ def stage1(x=151,y=250):
         global_y += y_change
         count += countc
 
-        gameDisplay.blit(background,hombreRect)
+        gameDisplay.blit(background,(map_x,map_y))
         
         
         print "x: %f" %global_x
@@ -190,13 +204,17 @@ def stage1(x=151,y=250):
         #basic borders
         
         if global_x < 36:
-            global_x += 5
+            global_x = 36
+            #map_x += 5
         if global_x > 840:
             global_x = 840
+            #map_x -= 5
         if global_y > 517:
             global_y = 517
+            #map_y += 5
         if global_y < 30:
             global_y = 30
+            #map_y -= 5
             #buildings
             
        
@@ -208,19 +226,29 @@ def stage1(x=151,y=250):
         player(global_x,global_y,tupl,count)
         #hospital entrance
         pygame.display.update()
-        if global_x >230 and global_x < 255:
-            if global_y < 145 and global_y > (145 - 50):
+        gameDisplay.fill((0,0,0))
+        if global_x - map_x >230 and global_x - map_x < 255:
+            if global_y - map_y< 145 and global_y - map_y > (145 - 50):
                 gameExit = True
                 portal_val = 2
                 portal_x = 457
                 portal_y = 470
-        
-        if global_x >385 and global_x < 405:
-            if global_y < 326 and global_y > (326 - 50):
+        #lab entrance
+        if global_x - map_x >385 and global_x - map_x < 405:
+            if global_y - map_y< 326 and global_y - map_y > (326 - 50):
                 gameExit = True
                 portal_val = 6
                 portal_x = 457
                 portal_y = 470
+        #stage 2 entrance
+        if global_y - map_y > 235 and global_y - map_y < 310:
+            if global_x - map_x < 37 and global_x - map_x > (37-50):
+                gameExit = True
+                portal_val = 7
+                portal_x = 820
+                portal_y =200
+                map_x = -2650
+                map_y = -1220
                 
 
             
@@ -286,6 +314,8 @@ def intro():
 
 def hospital():
     global global_x
+    global map_x
+    global map_x
     
     global level
     global global_y
@@ -409,9 +439,9 @@ def hospital():
     
     level = 1
     
-    global_x = 240
+    global_x = 240 + map_x
     
-    global_y = 145
+    global_y = 145 + map_y
 
     
 
@@ -476,9 +506,12 @@ def MenuOption(value):
         global global_x
         global global_y
         global level
+        global info
         info[3] = global_x
         info[4] = global_y
         info[2] = level
+        info[7] = map_x
+        info[8] = map_y
         write(info)
 
         display_text(["The Game has been saved."])
@@ -491,6 +524,8 @@ def new_load():
     level = 1
     global global_x
     global global_y
+    global map_x
+    global map_y
 
     info.append("from_start.txt") 
 
@@ -535,6 +570,8 @@ def new_load():
     #skills
     info.append("[]")
     #
+    info.append(map_x)
+    info.append(map_y)
 
                 
 def display_text(phrase = ["empty"],character = 0,speed = .07,x = 10, y = 400):
@@ -686,6 +723,8 @@ def Display_loads():
     global level
     global global_x
     global global_y
+    global map_x
+    global map_y
     
     info = reader(possible[location-1])
 
@@ -693,6 +732,8 @@ def Display_loads():
     level = int(info[2])
     global_x = int(info[3])
     global_y = int(info[4])
+    map_x = int(info[7])
+    map_y = int(info[8])
 
 def display_option(options):
     
@@ -954,7 +995,172 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
     return m,v
             
     
+def stage2():
+    pygame.mixer.music.load('town.wav')
+    background = pygame.image.load("stage2.png")
+    #size = (width, height) = background.get_size()
+    #backgroundRect = background.get_rect()
+    #menu = pygame.image.load("PauseMenu.png")
+    global global_x
+    global global_y
+    global map_y
+    global map_x
+    global level
+    global_x
     
+    
+    background = pygame.transform.scale(background,(3600,1788))
+    hombreRect = background.get_rect()
+    gameDisplay = pygame.display.set_mode((942,567))
+
+    tupl = [33, 0, 33, 33]
+
+
+    
+
+    x_change = 0
+    y_change = 0
+    count = 0
+    countc = 0
+    portal_val = 0
+    portal_x = 0
+    portal_y = 0
+
+    
+
+    gameExit = False
+    #pygame.mixer.music.play(-1)
+    while not gameExit:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    x_change = -5
+                    tupl = [1, 33, 33, 30]
+                    countc += 1
+                if event.key == pygame.K_RIGHT:
+                    x_change = 5
+                    tupl = [1, 64, 33, 32]
+                    countc += 1
+
+                if event.key == pygame.K_UP:
+                    y_change = -5
+                    tupl = [1, 96, 31, 33]
+                    countc += 1
+
+                if event.key == pygame.K_DOWN:
+                    y_change = 5
+                    tupl = [1, 0, 31, 33]
+                    countc += 1
+                if event.key == pygame.K_q:
+                    print "yup"
+                    pausemenu()
+                    x_change = 0
+                    y_change = 0
+                
+
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    x_change = 0
+
+                if event.key == pygame.K_DOWN or event.key == pygame.K_UP:
+                    y_change = 0
+                countc = 0
+                count = 0
+                
+        x_change,y_change = obsticle([3350,1625,3515,1725],global_x,global_y,x_change,y_change)
+        
+        x_change,y_change = obsticle([0,1720,3350,1800],global_x,global_y,x_change,y_change)
+        '''
+        x_change,y_change = obsticle([90,350,510,460],global_x,global_y,x_change,y_change)
+        x_change,y_change = obsticle([140,25,345,140],global_x,global_y,x_change,y_change)
+        x_change,y_change = obsticle([680,315,900,440],global_x,global_y,x_change,y_change)
+        '''
+
+        global_x += x_change
+        global_y += y_change
+        count += countc
+
+        gameDisplay.blit(background,(map_x,map_y))
+        
+        
+        print "x: %f" %global_x
+        print "y: %f" %global_y
+        print "true x: %f" %(global_x -map_x)
+        print "true y: %f" %(global_y- map_y)
+        #basic borders
+        
+        if global_x < 75:
+            global_x = 75
+            map_x += 5
+        if global_x > 850:
+            global_x = 850
+            map_x -= 5
+        if global_y > 500:
+            global_y = 500
+            map_y -= 5
+        if global_y < 75:
+            global_y = 75
+            map_y += 5
+            #buildings
+            
+       
+        
+        #walking animation
+        if count > 19:
+            count = 0
+        
+        player(global_x,global_y,tupl,count)
+        pygame.display.update()
+        gameDisplay.fill((0,0,0))
+        #hospital entrance
+        '''
+        pygame.display.update()
+        gameDisplay.fill((0,0,0))
+        if global_x - map_x >230 and global_x - map_x < 255:
+            if global_y - map_y< 145 and global_y - map_y > (145 - 50):
+                gameExit = True
+                portal_val = 2
+                portal_x = 457
+                portal_y = 470
+        #lab entrance
+        if global_x - map_x >385 and global_x - map_x < 405:
+            if global_y - map_y< 326 and global_y - map_y > (326 - 50):
+                gameExit = True
+                portal_val = 6
+                portal_x = 457
+                portal_y = 470
+
+                x = 850
+                y top = 170
+                y bot = 235
+        '''
+        if (global_y - map_y) > 1380 and (global_y - map_y) < 1450:
+            if (global_x - map_x) > 3515 and global_x - map_x < (3515+50):
+                gameExit = True
+                portal_val = 1
+                portal_x = 40
+                portal_y = 275
+                map_x = 0
+                map_y = 0
+                
+
+            
+        
+        
+        
+        clock.tick(30)
+    pygame.mixer.music.fadeout(1500)
+    
+    level = portal_val
+    
+    global_x = portal_x
+    
+    global_y = portal_y
     
 
 
