@@ -44,12 +44,13 @@ def player(x =0,y = 0, tupl = [1, 0, 33, 33], count = 0):
 
     #time.sleep(2)
     #V needs work 285,210,510,325
-def obsticle(block,x,y):
+def obsticle(block,x,y,m,v):
     global global_x
     global global_y
     # dem constants have to do with the speed
     if (x-6) > block[0] and (x+6) < block[2]:
         if y > block[1] and y < block[3]:
+            m,v = 0,0
             if -6 <= (y-block[3]): # has to be slightly greater than moving speed
                 y = block[3]
             else: y = block[1]
@@ -60,10 +61,13 @@ def obsticle(block,x,y):
 
     if y > block[1] and y < block[3]:
         if x > block[0] and x < block[2]:
+            m,v = 0,0
             if -6 <= (x-block[2]):
                 x= block[2]
             else: x = block[0]
-    return x,y
+    global_x = x
+    global_y = y
+    return m,v
     
 
 
@@ -167,6 +171,11 @@ def stage1(x=151,y=250):
                 countc = 0
                 count = 0
                 
+        x_change,y_change = obsticle([285,210,510,325],global_x,global_y,x_change,y_change)
+        x_change,y_change = obsticle([490,0,840,190],global_x,global_y,x_change,y_change)
+        x_change,y_change = obsticle([90,350,510,460],global_x,global_y,x_change,y_change)
+        x_change,y_change = obsticle([140,25,345,140],global_x,global_y,x_change,y_change)
+        x_change,y_change = obsticle([680,315,900,440],global_x,global_y,x_change,y_change)
 
 
         global_x += x_change
@@ -190,11 +199,7 @@ def stage1(x=151,y=250):
             global_y = 30
             #buildings
             
-        global_x,global_y = obsticle([285,210,510,325],global_x,global_y)
-        global_x,global_y = obsticle([490,0,840,190],global_x,global_y)
-        global_x,global_y = obsticle([90,350,510,460],global_x,global_y)
-        global_x,global_y = obsticle([140,25,345,140],global_x,global_y)
-        global_x,global_y = obsticle([680,315,900,440],global_x,global_y)
+       
         
         #walking animation
         if count > 19:
@@ -357,7 +362,7 @@ def hospital():
                 countc = 0
                 count = 0
                 
-
+        x_change,y_change = obsticle([260,115,655,235],global_x,global_y,x_change,y_change)
 
         global_x += x_change
         global_y += y_change
@@ -388,7 +393,7 @@ def hospital():
         x,y = obsticle([490,0,840,190],x,y)
         x,y = obsticle([90,350,510,460],x,y)
         '''
-        global_x,global_y = obsticle([260,115,655,235],global_x,global_y)
+        
         if count > 19:
             count = 0
         
@@ -495,7 +500,7 @@ def new_load():
     font = pygame.font.Font("font.ttf", 15)
     #gameDisplay.blit(prof,(10,250))
     display_text(["Welcome to the University of Florida","More importantly Welcome  to our Department","of Electrical and         Computer Engineering"],1)
-    display_text(["at your stay here you     will be seeing A lot","well tell me your name kid"],1)
+    display_text(["at your stay here you     will be seeing A lot","well tell me your name     kid"],1)
     while not gameExit:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -914,12 +919,15 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
     global global_y
     x = global_x
     y = global_y
-    block = [locationx-20,locationy-20,locationx + 30,locationy + 30]
+    
+    
+    block = [locationx-30,locationy-30,locationx + 40,locationy + 40]
     npc = pygame.image.load("red.png")
     if person == 0:
         tupl = [0, 0, 0, 0]
     if person == 1:
         tupl = [1, 0, 33, 33]
+    obsticle([locationx-20,locationy-20,locationx + 30,locationy + 30],global_x,global_y,m,v)
 
     gameDisplay.blit(npc,(locationx,locationy),tupl)
     if (x-6) > block[0] and (x+6) < block[2]:
@@ -927,11 +935,10 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
+                        print "1111111111111111"
                         display_text(statement)
-            if -6 <= (y-block[3]): # has to be slightly greater than moving speed
-                y = block[3] + 1
-            else: y = block[1] -1
-            m,v = 0,0
+                        m,v = 0,0
+            
 
             
         
@@ -941,14 +948,13 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
+                        print "1111111111111111"
                         display_text(statement)
-            if -6 <= (x-block[2]):
-                x= block[2] + 1
-            else: x = block[0] - 1
-            m,v =  0,0
-    global_x = x
-    global_y = y
+                        m,v = 0,0
     return m,v
+            
+    
+    
     
 
 
