@@ -899,7 +899,7 @@ def Lab():
                 count = 0
         gameDisplay.blit(background,hombreRect)
                 
-        x_change,y_change = character(x_change,y_change,250,250,["why are you disappearing?"])
+        #x_change,y_change = character(x_change,y_change,250,250,["why are you disappearing?"])
 
         global_x += x_change
         global_y += y_change
@@ -936,6 +936,8 @@ def Lab():
         
         
         player(global_x,global_y,tupl,count)
+        x_change,y_change = character(x_change,y_change,250,250,["why are you disappearing?"])
+        x_change,y_change = character(x_change,y_change,400,400,["congrats you did it."])
         pygame.display.update()
         
 
@@ -962,7 +964,11 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
     y = global_y
     
     
-    block = [locationx-30,locationy-30,locationx + 40,locationy + 40]
+    block = [locationx-20,locationy-20,locationx + 30,locationy + 30]
+    block[0] = block[0] + map_x
+    block[1] = block[1]+ map_y
+    block[2] = block[2]+ map_x
+    block[3] = block[3]+ map_y
     npc = pygame.image.load("red.png")
     if person == 0:
         tupl = [0, 0, 0, 0]
@@ -1074,7 +1080,7 @@ def stage2():
                 
         x_change,y_change = obsticle([3350,1625,3515,1725],global_x,global_y,x_change,y_change)
         
-        x_change,y_change = obsticle([0,1720,3350,1800],global_x,global_y,x_change,y_change)
+        x_change,y_change = obsticle([0,1705,3350,1800],global_x,global_y,x_change,y_change)
         '''
         x_change,y_change = obsticle([90,350,510,460],global_x,global_y,x_change,y_change)
         x_change,y_change = obsticle([140,25,345,140],global_x,global_y,x_change,y_change)
@@ -1103,8 +1109,8 @@ def stage2():
         if global_y > 500:
             global_y = 500
             map_y -= 5
-        if global_y < 75:
-            global_y = 75
+        if global_y < 180:
+            global_y = 180
             map_y += 5
             #buildings
             
