@@ -224,6 +224,7 @@ def stage1(x=151,y=250):
             count = 0
         
         player(global_x,global_y,tupl,count)
+        x_change,y_change = character(x_change,y_change,265,310,["Congrats you read the sign"])
         #hospital entrance
         pygame.display.update()
         gameDisplay.fill((0,0,0))
@@ -314,11 +315,11 @@ def intro():
 
 def hospital():
     global global_x
-    global map_x
-    global map_x
     
     global level
     global global_y
+    global map_x
+    global map_y
     
     background = pygame.image.load("hospital.png")
     background = pygame.transform.scale(background,(942,567))
@@ -350,6 +351,7 @@ def hospital():
 
     while not gameExit:
 
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -360,39 +362,41 @@ def hospital():
                     x_change = -5
                     tupl = [1, 33, 33, 30]
                     countc += 1
-                if event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT:
                     x_change = 5
                     tupl = [1, 64, 33, 32]
                     countc += 1
 
-                if event.key == pygame.K_UP:
+                elif event.key == pygame.K_UP:
                     y_change = -5
                     tupl = [1, 96, 31, 33]
                     countc += 1
 
-                if event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN:
                     y_change = 5
                     tupl = [1, 0, 31, 33]
                     countc += 1
 
-                if event.key == pygame.K_q:
+                elif event.key == pygame.K_q:
                     pausemenu()
+                    print "yup"
                     x_change = 0
                     y_change = 0
                     
-                    
-                
+            
 
-            elif event.type == pygame.KEYUP:
+            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    print "key are up"
                     x_change = 0
 
                 if event.key == pygame.K_DOWN or event.key == pygame.K_UP:
                     y_change = 0
                 countc = 0
                 count = 0
+        gameDisplay.blit(background,hombreRect)
                 
-        x_change,y_change = obsticle([260,115,655,235],global_x,global_y,x_change,y_change)
+        #x_change,y_change = character(x_change,y_change,250,250,["why are you disappearing?"])
 
         global_x += x_change
         global_y += y_change
@@ -402,7 +406,7 @@ def hospital():
 
         
         
-        gameDisplay.blit(background,hombreRect)
+        
         #message_display("tester")
         
         #car(500,-500)
@@ -423,24 +427,29 @@ def hospital():
         x,y = obsticle([490,0,840,190],x,y)
         x,y = obsticle([90,350,510,460],x,y)
         '''
+        x_change,y_change = obsticle([260,115,655,235],global_x,global_y,x_change,y_change)
         
         if count > 19:
             count = 0
         
+        
         player(global_x,global_y,tupl,count)
+        x_change,y_change = character(x_change,y_change,250,250,["why are you disappearing?"])
+        x_change,y_change = character(x_change,y_change,400,400,["congrats you did it."])
+        pygame.display.update()
+        
 
-        # the eglobal_xit
+
+        # the global_exit
         if global_x > 410 and global_x < 510:
             if global_y > 500:
                 gameExit = True
         
-        pygame.display.update()
+        
         clock.tick(30)
     
     level = 1
-    
     global_x = 240 + map_x
-    
     global_y = 145 + map_y
 
     
@@ -598,9 +607,7 @@ def display_text(phrase = ["empty"],character = 0,speed = .07,x = 10, y = 400):
             pygame.display.update()
             clock.tick(30)                
             sleep(speed)
-        for event in pygame.event.get():
-                if event.type == pygame.K_RETURN:
-                    pygame.event.clear(pygame.K_RETURN)
+        
                     
         while not gameExit:
             for event in pygame.event.get():
@@ -823,6 +830,8 @@ def Lab():
     
     global level
     global global_y
+    global map_x
+    global map_y
     
     background = pygame.image.load("lab.png")
     background = pygame.transform.scale(background,(942,567))
@@ -930,6 +939,7 @@ def Lab():
         x,y = obsticle([490,0,840,190],x,y)
         x,y = obsticle([90,350,510,460],x,y)
         '''
+        x_change,y_change = obsticle([260,115,655,235],global_x,global_y,x_change,y_change)
         
         if count > 19:
             count = 0
@@ -942,7 +952,7 @@ def Lab():
         
 
 
-        # the eglobal_xit
+        # the global_exit
         if global_x > 410 and global_x < 510:
             if global_y > 500:
                 gameExit = True
@@ -960,6 +970,8 @@ def Lab():
 def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1):
     global global_x
     global global_y
+    global map_x
+    global map_y
     x = global_x
     y = global_y
     
@@ -979,12 +991,13 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
     gameDisplay.blit(npc,(locationx,locationy),tupl)
     if (x-6) > block[0] and (x+6) < block[2]:
         if y > block[1] and y < block[3]:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        print "1111111111111111"
-                        display_text(statement)
-                        m,v = 0,0
+            keys=pygame.key.get_pressed()
+            if keys[pygame.K_RETURN]:
+                print "1111111111111111"
+                display_text(statement)
+                m,v = 0,0
+                
+            
             
 
             
@@ -992,12 +1005,12 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
 
     if y > block[1] and y < block[3]:
         if x > block[0] and x < block[2]:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        print "1111111111111111"
-                        display_text(statement)
-                        m,v = 0,0
+            keys=pygame.key.get_pressed()
+            if keys[pygame.K_RETURN]:
+                print "1111111111111111"
+                display_text(statement)
+                m,v = 0,0
+                        
     return m,v
             
     
