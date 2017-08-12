@@ -993,8 +993,9 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
         if y > block[1] and y < block[3]:
             keys=pygame.key.get_pressed()
             if keys[pygame.K_RETURN]:
-                print "1111111111111111"
+                print "1111111111111112"
                 display_text(statement)
+                pygame.event.clear()
                 m,v = 0,0
                 
             
@@ -1003,12 +1004,13 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
             
         
 
-    if y > block[1] and y < block[3]:
+    if (y-6) > block[1] and (y+6) < block[3]:
         if x > block[0] and x < block[2]:
             keys=pygame.key.get_pressed()
             if keys[pygame.K_RETURN]:
                 print "1111111111111111"
                 display_text(statement)
+                pygame.event.clear()
                 m,v = 0,0
                         
     return m,v
