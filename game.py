@@ -224,7 +224,7 @@ def stage1(x=151,y=250):
             count = 0
         
         player(global_x,global_y,tupl,count)
-        x_change,y_change = character(x_change,y_change,265,310,["Congrats you read the sign"])
+        x_change,y_change = character(x_change,y_change,265,310,["Congrats you read the sign"],0)
         #hospital entrance
         pygame.display.update()
         gameDisplay.fill((0,0,0))
@@ -504,7 +504,7 @@ def pausemenu():
 
 def MenuOption(value):
     if value == 4:
-        result = display_option(["yes","no","sure","mabye?"])
+        result = display_option(["are you the best?","yes","no","sure","mabye?"])
         if result == 1:
             display_text(["you fucked up man."])
     if value == 5:
@@ -572,7 +572,7 @@ def new_load():
                     
             pygame.display.update()
             clock.tick(30)
-    display_text(["Alright " + name, "While here at UF you Will have your GPA act as your health"],1)
+    display_text(["Alright " + name, "While here at UF you Will have your GPA act as your health","because we're nice we will give you a 4.00 to start"],1)
     display_text(["Your grade level will represent your Rank","and as you learn things you will learn new skills"],1)
     #line 2 stage
     info.append(1)
@@ -589,12 +589,12 @@ def new_load():
     # 8 self
     info.append(map_y)
     # 9 major
-    info.append("['Nothing',0]")
+    info.append(['Nothing',0])
     # 10 rank
     info.append("Freshmen")
 
                 
-def display_text(phrase = ["empty"],character = 0,speed = .07,x = 10, y = 400):
+def display_text(phrase = ["empty"],character = 0,speed = .09,x = 10, y = 400):
     text_box = pygame.image.load("text_box.png")
     if character == 1:
         prof = pygame.image.load("pixel_moore.png")
@@ -754,11 +754,15 @@ def Display_loads():
     map_y = int(info[8])
 
 def display_option(options):
-    
+    #initial statement is display text
     gameExit = False
     point = pygame.image.load('menupointer.png')
     location = 1
     font = pygame.font.Font("font.ttf", 15)
+
+    display_text([options[0]])
+    del options[0]
+
     if len(options) == 2:
         menu = pygame.image.load('text_box.png')
         x = 10
@@ -772,7 +776,7 @@ def display_option(options):
         x = -100
         y = 300
         pointy_offset = 375
-        wordx_offset = 175
+        wordx_offset = 150
         wordy_offset = 100
         menu = pygame.image.load('LoadMenu.png')
 
@@ -780,7 +784,7 @@ def display_option(options):
     while not gameExit:
         i = 1
         #gameDisplay.blit(menu,(250,10))
-        gameDisplay.blit(point,(-325,location*32 + pointy_offset ))
+        gameDisplay.blit(point,(-325 + -15,location*32 + pointy_offset ))
         
         pygame.display.update()
         gameDisplay.blit(menu,(x,y))
@@ -959,6 +963,7 @@ def Lab():
         player(global_x,global_y,tupl,count)
         x_change,y_change = character(x_change,y_change,250,250,["why are you disappearing?"])
         x_change,y_change = character(x_change,y_change,400,400,["congrats you did it."])
+        x_change,y_change = character(x_change,y_change,450,400,["What do you want your major to be?","Computer Engineering","Computer Science(Ha)","Electrical Engineering"],1,1)
         pygame.display.update()
         
 
@@ -978,7 +983,7 @@ def Lab():
 
 
 
-def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1):
+def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1,question = 0):
     global global_x
     global global_y
     global map_x
@@ -1005,7 +1010,10 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
             keys=pygame.key.get_pressed()
             if keys[pygame.K_RETURN]:
                 print "1111111111111112"
-                display_text(statement)
+                if question:
+                	display_option(statement)
+                else:
+                	display_text(statement)
                 m,v = 0,0
                 
             
@@ -1019,7 +1027,10 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
             keys=pygame.key.get_pressed()
             if keys[pygame.K_RETURN]:
                 print "1111111111111111"
-                display_text(statement)
+                if question:
+                	display_option(statement)
+                else:
+                	display_text(statement)
                 m,v = 0,0
                         
     return m,v
