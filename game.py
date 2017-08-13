@@ -516,9 +516,9 @@ def MenuOption(value):
         global global_y
         global level
         global info
+        info[2] = level
         info[3] = global_x
         info[4] = global_y
-        info[2] = level
         info[7] = map_x
         info[8] = map_y
         write(info)
@@ -535,7 +535,7 @@ def new_load():
     global global_y
     global map_x
     global map_y
-
+    #line 0
     info.append("from_start.txt") 
 
     
@@ -558,6 +558,7 @@ def new_load():
                     name = name[:-1]
                 if event.key == pygame.K_RETURN:
                     gameExit = True
+                    #line 1
                     info.append(name)
                 if event.key == pygame.K_SPACE:
                     name += " "
@@ -571,16 +572,26 @@ def new_load():
                     
             pygame.display.update()
             clock.tick(30)
+    display_text(["Alright " + name, "While here at UF you Will have your GPA act as your health"],1)
+    display_text(["Your grade level will represent your Rank","and as you learn things you will learn new skills"],1)
+    #line 2 stage
     info.append(1)
+    #line 3 self
     info.append(global_x)
+    #self 4 slef
     info.append(global_y)
-    #health
+    # 5 health
     info.append(4)
-    #skills
+    # 6 skills
     info.append("[]")
-    #
+    # 7 self
     info.append(map_x)
+    # 8 self
     info.append(map_y)
+    # 9 major
+    info.append("['Nothing',0]")
+    # 10 rank
+    info.append("Freshmen")
 
                 
 def display_text(phrase = ["empty"],character = 0,speed = .07,x = 10, y = 400):
@@ -995,7 +1006,6 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
             if keys[pygame.K_RETURN]:
                 print "1111111111111112"
                 display_text(statement)
-                pygame.event.clear()
                 m,v = 0,0
                 
             
@@ -1010,7 +1020,6 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
             if keys[pygame.K_RETURN]:
                 print "1111111111111111"
                 display_text(statement)
-                pygame.event.clear()
                 m,v = 0,0
                         
     return m,v
