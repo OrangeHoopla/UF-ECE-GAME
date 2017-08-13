@@ -983,7 +983,7 @@ def Lab():
 
 
 
-def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1,question = 0):
+def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1,question = 0,question_value = 0):
     global global_x
     global global_y
     global map_x
@@ -1033,7 +1033,7 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
                 	display_text(statement)
                 m,v = 0,0
                         
-    return m,v
+    return m,v,question_value
             
     
 def stage2():
