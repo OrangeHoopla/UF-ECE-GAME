@@ -227,7 +227,7 @@ def stage1(x=151,y=250):
         x_change,y_change = character(x_change,y_change,265,310,["Congrats you read the sign"],0)
         #hospital entrance
         pygame.display.update()
-        gameDisplay.fill((0,0,0))
+        #gameDisplay.fill((0,0,0))
         if global_x - map_x >230 and global_x - map_x < 255:
             if global_y - map_y< 145 and global_y - map_y > (145 - 50):
                 gameExit = True
@@ -572,8 +572,8 @@ def new_load():
                     
             pygame.display.update()
             clock.tick(30)
-    display_text(["Alright " + name, "While here at UF you Will have your GPA act as your health","because we're nice we will give you a 4.00 to start"],1)
-    display_text(["Your grade level will represent your Rank","and as you learn things you will learn new skills"],1)
+    display_text(["Alright " + name, "While here at UF your GPA act as your health","because we're nice we will give you a 4.00 to start"],1)
+    display_text(["Your grade level will     represent your Rank","and as you learn things   you will learn new skills"],1)
     #line 2 stage
     info.append(1)
     #line 3 self
@@ -983,7 +983,7 @@ def Lab():
 
 
 
-def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1,question = 0,question_value = 0):
+def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1,question = 0,):
     global global_x
     global global_y
     global map_x
@@ -1033,7 +1033,7 @@ def character(m,v,locationx = 250,locationy = 250,statement = ["..."],person = 1
                 	display_text(statement)
                 m,v = 0,0
                         
-    return m,v,question_value
+    return m,v
             
     
 def stage2():
