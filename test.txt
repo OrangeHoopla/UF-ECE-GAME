@@ -1,6 +1,7 @@
 test.txt
-hello
+name
 red
 health
 1
-0
+245
+150

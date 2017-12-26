@@ -9,14 +9,7 @@ pygame.init()
 # notes make teleport function and have the back ground move instead of character
 #most important finish intro for new game
 #add response function for responding to people
-info = []
-level = 0
-global_x = 154
-map_x = 0
-map_y = 0
-global_y = 170
-background_x = 0
-background_x = 0
+
 background = pygame.image.load("town.png")
 size = (width, height) = background.get_size()
 backgroundRect = background.get_rect()
@@ -1224,22 +1217,6 @@ def stage2():
         
                 
                     
-                        
-
-            
-
-
-
-
-            
-        
-
-        
-        
-
-        
-
-
 while True:
 
     navigator(level)
