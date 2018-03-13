@@ -21,26 +21,28 @@ class Game:
 
     def __init__(self):
         self.intro()
-        menu = Menu()
-        player = Player()
+        self.menu = Menu()
+        self.player = Player()
         #insert loading screen basics
 
-        while True:
+
+    def main(self):
+
+        
 
 
-            player.move()
-            menu.check()
-            #updates
+           
 
-            gameDisplay.blit(background,(0,0))
+            #self.menu.check()
+            while True:
+                gameDisplay.blit(background,(0,0))
+                
+                self.player.move()
+                pygame.display.update()
 
-            gameDisplay.blit(player.image,
-                            (player.x,player.y),
-                             player.section)
+                clock.tick(30)
 
-            pygame.display.update()
-
-            clock.tick(30)
+        
 
 
     def intro(self):
@@ -100,7 +102,8 @@ class Game:
 
 
 if __name__ == "__main__":
-    Game()
+    user = Game()
+    user.main()
 
 
 
