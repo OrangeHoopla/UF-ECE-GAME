@@ -21,7 +21,7 @@ class Game:
 
     def __init__(self):
         self.intro()
-        self.menu = Menu()
+        #self.menu = Menu()
         self.player = Player()
         #insert loading screen basics
 
@@ -38,6 +38,7 @@ class Game:
                 gameDisplay.blit(background,(0,0))
                 
                 self.player.move()
+                #self.menu.check()
                 pygame.display.update()
 
                 clock.tick(30)
