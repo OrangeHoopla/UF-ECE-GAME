@@ -3,26 +3,25 @@ import time
 from time import sleep
 from Player import Player
 from User_UI import Menu
+from Maps import World
 
-pygame.init()
-
-background = pygame.image.load(os.path.join('Maps','town.png'))
-background = pygame.transform.scale(background,(942,567))
-size =  background.get_size()
-
-
-gameDisplay = pygame.display.set_mode(size)
-pygame.display.set_caption('ECEmon version 2.0')
-clock = pygame.time.Clock()
 
 
 
 class Game:
 
     def __init__(self):
+        pygame.init()
+        self.location = World()
+
+        self.gameDisplay = pygame.display.set_mode(self.location.size)
+        pygame.display.set_caption('ECEmon version 2.0')
+        self.clock = pygame.time.Clock()
+
         self.intro()
         #self.menu = Menu()
         self.player = Player()
+        
         #insert loading screen basics
 
 
@@ -31,17 +30,26 @@ class Game:
         
 
 
-           
+            self.player.x = 150
+            self.player.y = 150
 
-            #self.menu.check()
+            
             while True:
-                gameDisplay.blit(background,(0,0))
-                
+
+                self.gameDisplay.blit(self.location.background,(self.location.x,
+                                                                self.location.y))
+              
+                print("X: {} Y: {}".format(self.player.x,
+                                           self.player.y))
+
                 self.player.move()
+
+                self.player.x, self.player.y = self.location.map_check(self.player.x,
+                                                                       self.player.y)
                 #self.menu.check()
                 pygame.display.update()
 
-                clock.tick(30)
+                self.clock.tick(30)
 
         
 

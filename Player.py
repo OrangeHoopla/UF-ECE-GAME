@@ -6,7 +6,7 @@ import os
 class Player:
 
     def __init__(self):
-        self.menu = Menu()
+        
         self.section = [1, 0, 31, 33]
         self.sectionb = 0
         self.speed = 3
@@ -17,6 +17,7 @@ class Player:
         self.y = 0
         self.count = 0
         self.char_display = pygame.display.set_mode((942,567))
+        self.menu = Menu(self.char_display)
 
         self.image = pygame.image.load(
             os.path.join(
@@ -66,7 +67,7 @@ class Player:
                         self.count += 1
                     #access the menu 
                     elif event.key == pygame.K_q:
-                        print("yes")
+                        #print("yes")
                         self.menu.Pause()
                 else:
                     self.changey = 0
