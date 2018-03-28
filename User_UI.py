@@ -1,25 +1,38 @@
 import pygame
 import os
+from time import sleep
 
 class Menu():
 
+
+    def __init__(self,uidisplay):
+        self.uidisplay = pygame.display.set_mode((942,567))
+
+
+
     def check(self):
-
+        print(pygame.event.get())
+        #print("^^^")
         for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-
-                elif event.type == pygame.KEYDOWN:
+                #print("yessers")
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
+                        #print("yes it is me")
                         self.Pause()
 
 
 
                         
     def Pause(self):
-        menu = pygame.image.load(os.path.join('graphics','PauseMenu.png'))
-        point = pygame.image.load(os.join.path('graphics','menupointer.png'))
+        
+        menu = pygame.image.load(os.path.join(
+            'graphics',
+            'PauseMenu.png'))
+
+        point = pygame.image.load(os.path.join(
+            'graphics',
+            'menupointer.png'))
+
         location = 1
         
         
@@ -29,8 +42,8 @@ class Menu():
 
         while game:
             
-            gameDisplay.blit(menu,(-325,10))
-            gameDisplay.blit(point,(-325,location*32 -20 ))
+            self.uidisplay.blit(menu,(-325,10))
+            self.uidisplay.blit(point,(-325,location*32 -20 ))
 
             pygame.display.update()
             
@@ -43,7 +56,7 @@ class Menu():
                 if event.type == pygame.KEYDOWN:
 
                     if event.key == pygame.K_q:
-                        gameExit = True
+                        game = False
 
 
 
@@ -53,12 +66,60 @@ class Menu():
                     if event.key == pygame.K_UP:
                         location -= 1
                     if event.key == pygame.K_RETURN:
-                        MenuOption(location)
+                        self.dialog_box(["Frank: You think you're    cool huh?","Quade: yeah i kinda do"])
                         return
+                        
                        
             if location < 1:
                 location = 1
             if location > 9:
                 location = 9;
+
+
+    #needs to be cleaned up
+    def dialog_box(self,Statement = ["..."]):
+        #need to make a map ui so that It can be referened for this
+        #background = pygame.image.load(os.path.join('Maps','town.png'))
+        #background = pygame.transform.scale(background,(942,567))
+
+
+        #self.uidisplay = pygame.display.set_mode((942,567))
+        gameExit = False
+        #self.uidisplay.blit(background,(0,0))
+        font = pygame.font.Font("fonts/gen_1.ttf", 15)
+        speed = .09
+        x = 10
+        y = 400
+        text_box = pygame.image.load("graphics/text_box.png")
+
+        for sentence in Statement:
+            name = ''
+            line = y + 25
+            self.uidisplay.blit(text_box,(x,y))
+            gameExit = False
+            for letter in sentence:
+                name += letter
+                if len(name) > 25:
+                    name = ''
+                    line = y + 60
+                block = font.render(name, True, (0, 0, 0))
+                self.uidisplay.blit(block, (x + 25,line))
+                #pygame.display.update((x,y,x+100,y+100))  
+                pygame.display.update()            
+                sleep(speed)
+
+            while not gameExit:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit()
+
+                    if event.type == pygame.KEYDOWN:
+
+                        if event.key == pygame.K_RETURN:
+                            
+                            gameExit = True
+
+        
 
                     
