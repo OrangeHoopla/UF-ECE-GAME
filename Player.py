@@ -1,18 +1,20 @@
 import pygame
 from User_UI import Menu
+import numpy as np
 
 import os
 
 class Player:
 
     def __init__(self):
-        
+
+        self.saving = False
         self.section = [1, 0, 31, 33]
+        self.character_info = {}
         self.sectionb = 0
         self.speed = 3
         self.changex = 0
         self.changey = 0
-        self.health = 4
         self.x = 0
         self.y = 0
         self.count = 0
@@ -68,7 +70,13 @@ class Player:
                     #access the menu 
                     elif event.key == pygame.K_q:
                         #print("yes")
-                        self.menu.Pause()
+                        hold = self.menu.Pause()
+                        if  hold == 6:
+                            self.saving = True
+                            self.menu.dialog_box(["The Game as been Saved."])
+                            
+                            
+
                 else:
                     self.changey = 0
                     self.changex = 0
@@ -81,4 +89,19 @@ class Player:
         self.sectionb += self.count
         self.section[0] = 33*int(self.sectionb/5)
         self.sectionb = self.sectionb%19
+
+
+
+    def load_character(self, name):
+
+        self.character_info = np.load("Saves/" + name + ".npy").item()
+        self.x = self.character_info['Location'][0]
+        self.y = self.character_info['Location'][1]
+        
+
+
+    def save_character(self):
+        self.character_info['Location'][0] = self.x
+        self.character_info['Location'][1] = self.y 
+        np.save("Saves/"+ self.character_info['Name'] + ".npy", self.character_info)
 

@@ -1,12 +1,13 @@
 import pygame
 import os
 from time import sleep
-
+from Fighting import Battles
 class Menu():
 
 
     def __init__(self,uidisplay):
         self.uidisplay = pygame.display.set_mode((942,567))
+        self.cage = Battles(['pixel_moore'])
 
 
 
@@ -66,14 +67,20 @@ class Menu():
                     if event.key == pygame.K_UP:
                         location -= 1
                     if event.key == pygame.K_RETURN:
-                        self.dialog_box(["Frank: You think you're    cool huh?","Quade: yeah i kinda do"])
-                        return
+                        #self.cage.main()
+                        
+                        game = False
+                        
                         
                        
             if location < 1:
                 location = 1
             if location > 9:
                 location = 9;
+
+        if location == 5:
+            self.cage.main()
+        return location
 
 
     #needs to be cleaned up
