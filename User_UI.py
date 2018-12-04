@@ -5,9 +5,10 @@ from Fighting import Battles
 class Menu():
 
 
-    def __init__(self,uidisplay):
+    def __init__(self,player,uidisplay):
         self.uidisplay = pygame.display.set_mode((942,567))
-        self.cage = Battles(['pixel_moore'])
+        self.cage = Battles(player,['pixel_moore'])
+        self.player = player
 
 
 
@@ -79,7 +80,7 @@ class Menu():
                 location = 9;
 
         if location == 5:
-            self.cage.main()
+            self.cage.main(self.player,['pixel_moore'])
         return location
 
 

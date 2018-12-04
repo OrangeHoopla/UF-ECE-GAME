@@ -10,7 +10,7 @@ class Player:
 
         self.saving = False
         self.section = [1, 0, 31, 33]
-        self.character_info = {}
+        self.character_info = {"health":100,"max_health":55}
         self.sectionb = 0
         self.speed = 3
         self.changex = 0
@@ -19,7 +19,7 @@ class Player:
         self.y = 0
         self.count = 0
         self.char_display = pygame.display.set_mode((942,567))
-        self.menu = Menu(self.char_display)
+        self.menu = Menu(self,self.char_display)
 
         self.image = pygame.image.load(
             os.path.join(
@@ -76,6 +76,7 @@ class Player:
                             self.menu.dialog_box(["The Game as been Saved."])
                             
                             
+                            
 
                 else:
                     self.changey = 0
@@ -101,6 +102,7 @@ class Player:
 
 
     def save_character(self):
+
         self.character_info['Location'][0] = self.x
         self.character_info['Location'][1] = self.y 
         np.save("Saves/"+ self.character_info['Name'] + ".npy", self.character_info)
