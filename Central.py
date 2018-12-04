@@ -182,7 +182,7 @@ class Game:
         font = pygame.font.Font("fonts/gen_1.ttf", 15)
         #gameDisplay.blit(prof,(10,250))
         new_game.dialog_box(["Welcome to the University of Florida","More importantly Welcome  to our Department","of Electrical and         Computer Engineering"])
-        new_game.dialog_box(["at your stay here you     will be seeing A lot","well tell me your name     kid"])
+        new_game.dialog_box(["at your stay here you     will be seeing A lot","well tell me your name     kid..."])
         while not gameExit:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
