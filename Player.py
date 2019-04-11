@@ -1,7 +1,6 @@
 import pygame
 from User_UI import Menu
 import numpy as np
-
 import os
 
 class Player:
@@ -20,6 +19,13 @@ class Player:
         self.count = 0
         self.char_display = pygame.display.set_mode((942,567))
         self.menu = Menu(self,self.char_display)
+        self.level = 5;
+        self.attack = 0;
+        self.defense = 0;
+        self.determination = 0;
+        self.charm = 0;
+        self.intelligence = 0;
+
 
         self.image = pygame.image.load(
             os.path.join(
@@ -98,6 +104,12 @@ class Player:
         self.character_info = np.load("Saves/" + name + ".npy").item()
         self.x = self.character_info['Location'][0]
         self.y = self.character_info['Location'][1]
+        #self.level = 5;
+        #self.attack = 0;
+        #self.defense = 0;
+        #self.determination = 0;
+        #self.charm = 0;
+        #self.intelligence = 0;
         
 
 
