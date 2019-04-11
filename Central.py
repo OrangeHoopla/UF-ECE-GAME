@@ -210,7 +210,7 @@ class Game:
                         
                 pygame.display.update()
                 
-        new_game.dialog_box(["Alright " + name, "While here at UF you Will have your GPA act as your health","because we're nice we will give you a 4.00 to start"])
+        new_game.dialog_box(["Alright " + name, "While here at UF you will have your GPA act as your health","because we're nice we will give you a 4.00 to start"])
         new_game.dialog_box(["Your grade level will represent your Rank","and as you learn things you will learn new skills"])
 
         self.player.character_info = {'Name': name, 'Location': [150, 150, 'HomeTown']}
@@ -223,8 +223,7 @@ class Game:
         files = glob.glob('Saves/*.npy')
         gameExit = False
         location = 1
-        name = [file[6:] for file in files]
-        name = [file[:-4] for file in name]
+        name = [file[6:-4] for file in files]
         menu = pygame.image.load("graphics/large_text_box.png")
 
         while not gameExit:
@@ -236,8 +235,8 @@ class Game:
                 for i in name:
                     gameDisplay.blit(font.render(i, True, (0, 0, 0)),(300,10+j*30))
                     j += 1
-                #gameDisplay.blit(block1,(300,40))
-                #gameDisplay.blit(block2,(300,70))
+               
+               
                 pygame.display.update()
                 
 

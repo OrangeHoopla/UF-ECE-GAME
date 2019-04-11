@@ -1,0 +1,6 @@
+#battles
+{"Name": "Dr.Turner", "Location": [234, 252], "Level": 15,"image": "Turner.png"}
+{"Name": "Dr.Moore", "Location": [234, 252], "Level": 20,"image": "pixel_moore.png"}
+{"Name": "Dr.Moore", "Location": [234, 252], "Level": 5,"image": "pixel_moore.png"}
+{"Name": "Dr.Moore", "Location": [234, 252], "Level": 25,"image": "pixel_moore.png"}
+{"Name": "Dr.Moore", "Location": [234, 252], "Level": 45,"image": "pixel_moore.png"}
